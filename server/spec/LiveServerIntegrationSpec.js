@@ -65,5 +65,35 @@ describe('server', function() {
     });
   });
 
+  it('Should answer bad requests with 400 status code', function(done) {
+    var requestParams = {method: 'POST',
+      uri: 'http://127.0.0.1:3000/classes/messages',
+      json: {
+        key: 'value'
+      }
+    };
+
+    // debugger;
+    request(requestParams, function(error, response, body) {
+      // debugger;
+      expect(response.statusCode).to.equal(400);
+      done();
+    });
+  });
+
+  it('Should answer incomplete requests with 400 status code', function(done) {
+    var requestParams = {method: 'POST',
+      uri: 'http://127.0.0.1:3000/classes/messages',
+      json: {
+        username: 'Jason'
+      }
+    };
+
+    request(requestParams, function(error, response, body) {
+      expect(response.statusCode).to.equal(400);
+      done();
+    });
+  });
+
 
 });
