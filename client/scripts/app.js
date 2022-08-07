@@ -15,6 +15,7 @@ var App = {
     App.startSpinner();
     App.fetch(App.stopSpinner);
 
+
     // Poll for new messages every 3 sec
     setInterval(App.fetch, 3000);
   },
@@ -22,6 +23,7 @@ var App = {
   fetch: function(callback = ()=>{}) {
     Parse.readAll((data) => {
       // Don't bother to update if we have no messages
+      data = JSON.parse(data);
       if (data && data.length) {
         Rooms.update(data, RoomsView.render);
         Messages.update(data, MessagesView.render);

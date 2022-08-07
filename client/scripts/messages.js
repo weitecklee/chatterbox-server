@@ -2,21 +2,23 @@ var Messages = {
 
 
   _data: {},
+  _messageid: 0,
 
   items: function() {
     return _.chain(Object.values(Messages._data)).sortBy('createdAt');
   },
 
   add: function(message, callback = ()=>{}) {
-    Messages._data[message.message_id] = message;
+    var length = Object.keys(Messages._data).length;
+    Messages._data[length + 1] = message;
     callback(Messages.items());
   },
 
   update: function(messages, callback = ()=>{}) {
     var length = Object.keys(Messages._data).length;
 
-    for (let message of messages) {
-      Messages._data[message.message_id] = Messages._conform(message);
+    for (let i = 0; i < messages.length; i++) {
+      Messages._data[i] = Messages._conform(messages[i]);
     }
 
     // only invoke the callback if something changed
@@ -32,5 +34,5 @@ var Messages = {
     message.roomname = message.roomname || '';
     return message;
   }
-  
+
 };
